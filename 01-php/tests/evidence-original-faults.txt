@@ -1,0 +1,17 @@
+1. '[ad]' is a character class, not a literal:
+   preg_replace('#[ad]#','X','A dad had a bad day. [ad]') => A XXX hXX X bXX XXy. [XX]
+   escaped '#\[ad\]#' => A dad had a bad day. X
+
+2. preg_replace_callback with two arguments:
+   ArgumentCountError: preg_replace_callback() expects at least 3 arguments, 2 given
+
+3. Callback that echoes instead of returning:
+[ECHOED OUT OF BAND]
+   returned string => 'before  after'
+
+4. (int) on a non-numeric page value:
+   (int)'abc' => 0 ; max(1,(int)'abc') => 1
+
+5. Undefined array key under PHP 8:
+   Warning: Undefined array key "s"
+   with null coalescing => ''

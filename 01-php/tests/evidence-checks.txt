@@ -1,0 +1,39 @@
+
+=== missing ===
+  PASS  defaults to page 1
+  PASS  omits the search clause when s is absent
+  PASS  renders ten articles
+  PASS  no undefined-variable artefacts
+  (4 checks, 0 failed)
+
+=== page2 ===
+  PASS  reports page 2
+  PASS  shows the second window of posts
+  PASS  does not repeat page 1
+  PASS  renders ten articles
+  PASS  marks page 2 current in pagination
+  PASS  non-numeric page clamps to 1
+  PASS  negative page clamps to 1
+  (7 checks, 0 failed)
+
+=== noresults ===
+  PASS  shows the empty-state message
+  PASS  echoes the escaped term
+  PASS  renders no articles
+  PASS  still reports a sane page count
+  PASS  no executable script survives
+  PASS  tags are stripped on input, inner text survives
+  PASS  esc_html alone neutralises tags
+  (7 checks, 0 failed)
+
+=== ads ===
+  PASS  replaces all three markers
+  PASS  numbers them sequentially
+  PASS  leaves no literal markers behind
+  PASS  does not nest a div inside a p
+  PASS  leaves ordinary letters a and d alone
+  PASS  ad counter resets per post
+  PASS  search result still renders
+  (7 checks, 0 failed)
+
+ALL CHECKS PASSED
