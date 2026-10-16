@@ -1,0 +1,61 @@
+
+=== happy path ===
+  PASS  returns confirmed
+  PASS  one provider record
+  PASS  one local record
+  PASS  normalises the address before storing
+  PASS  stores the provider id
+
+=== timeout, then retry (provider already accepted) ===
+  PASS  first attempt reports pending_retry, not failure
+  PASS  local record survives the timeout as pending
+  PASS  provider did create a record we never heard about
+  PASS  a retry delay was computed
+  PASS  retry confirms
+  PASS  retry reused the same idempotency key
+  PASS  the two calls presented identical keys
+  PASS  STILL exactly one provider record, no duplicate
+  PASS  exactly one local record
+  PASS  exactly one confirmed subscriber
+  PASS  the replay was recorded as a replay, not a create
+
+=== timeout retried many times ===
+  PASS  eventually confirms
+  PASS  four calls were made
+  PASS  still exactly one provider record
+  PASS  still exactly one local record
+  PASS  a call after confirmation short-circuits
+  PASS  and still reports confirmed
+
+=== rate limit ===
+  PASS  reports pending_retry
+  PASS  reason is rate_limited
+  PASS  honours the provider's Retry-After
+  PASS  signup is not lost, record is pending
+  PASS  no provider record yet
+  PASS  retry after the limit clears confirms
+  PASS  exactly one provider record
+
+=== invalid email ===
+  PASS  rejected locally
+  PASS  no provider call was made
+  PASS  nothing written to the store
+  PASS  provider rejection is terminal
+  PASS  recorded as rejected locally
+  PASS  a retry of a rejected address does not call the provider again
+  PASS  and stays rejected
+
+=== normalisation and scope ===
+  PASS  three spellings of one address produce one record
+  PASS  and one provider record
+  PASS  only the first call reached the provider
+  PASS  a different scope is a separate subscription
+
+=== logging hygiene ===
+  PASS  no raw email address appears in any log line
+  PASS  idempotency keys are logged
+  PASS  retry decisions are logged
+  PASS  rate limits are logged with their delay
+
+44 checks, 0 failed
+ALL CHECKS PASSED
