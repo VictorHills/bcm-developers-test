@@ -1,0 +1,67 @@
+
+=== initial load ===
+  PASS  starts with the three original paragraphs
+  PASS  separators applied before any click
+  PASS  exactly one separator at n=3
+  PASS  no separator after the final paragraph
+  PASS  second button was created by the script
+  PASS  second button sits next to the original
+  PASS  second button is type=button
+
+=== repeated clicks ===
+  PASS  one click yields six paragraphs
+  PASS  sequence correct at n=6
+  PASS  two separators at n=6
+  PASS  two clicks yield nine paragraphs
+  PASS  sequence correct at n=9
+  PASS  four separators at n=9
+  PASS  invariants hold across twelve clicks total
+  PASS  ends at 39 paragraphs (3 + 12 batches of 3)
+  PASS  separators never trail the last paragraph
+  PASS  no two separators are adjacent
+
+=== batch contents ===
+  PASS  appended batch is a permutation of the three originals
+  PASS  originals are left in place and unreordered
+  PASS  clones are marked as clones
+  PASS  originals are not marked as clones
+  PASS  second batch is also a clean permutation
+
+=== shuffle randomises ===
+  PASS  all six permutations observed over 300 draws
+  PASS  shuffle preserves length and membership
+  PASS  shuffle does not mutate its input
+
+=== toggle before adding ===
+  PASS  one image paragraph at load
+  PASS  visible initially
+  PASS  toggle hides the image paragraph
+  PASS  button label flips
+  PASS  aria-pressed reflects state
+  PASS  newly added image paragraphs arrive hidden
+  PASS  two image paragraphs now exist
+  PASS  non-image paragraphs stay visible
+  PASS  toggling back reveals all image paragraphs
+  PASS  label flips back
+  PASS  sequence unchanged by hiding at the same paragraph count
+
+=== toggle after adding ===
+  PASS  three image paragraphs after two clicks
+  PASS  toggle hides every image paragraph including clones
+  PASS  still hidden after a further click
+  PASS  four image paragraphs now
+  PASS  double toggle leaves them hidden
+
+=== hidden paragraphs still count for separators ===
+  PASS  sequence identical with images hidden
+  PASS  separator count unchanged by hiding
+  PASS  hidden paragraphs are still in the DOM
+  PASS  placement still correct with hidden paragraphs present
+  PASS  some paragraphs genuinely are hidden
+
+=== separators are owned, not stolen ===
+  PASS  an author-supplied <hr> is not removed
+  PASS  generated separators are flagged
+
+48 checks, 0 failed
+ALL CHECKS PASSED
