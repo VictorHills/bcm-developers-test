@@ -1,0 +1,48 @@
+$ npx html-validate --version
+html-validate-11.16.2
+
+$ npx html-validate 05-html/broken.html
+
+/home/claude/bcm-developer-test/05-html/broken.html
+   1:1   error  Document is missing doctype                             missing-doctype
+   1:2   error  <html> is missing required "lang" attribute             element-required-attributes
+   1:2   error  <html> element must have <body> as content              element-required-content
+   2:2   error  Element <body> is implicitly closed by document ending  no-implicit-close
+  15:2   error  Element <p> is implicitly closed by document ending     no-implicit-close
+  16:25  error  Attribute "href" using unquoted value                   attr-quotes
+  19:10  error  <img> is missing required "alt" attribute               wcag/h37
+  19:14  error  Attribute "src" using unquoted value                    attr-quotes
+  19:28  error  Attribute "with" using unquoted value                   attr-quotes
+  19:37  error  Attribute "height" using unquoted value                 attr-quotes
+  19:44  error  Attribute "height" has invalid value "auto"             attribute-allowed-values
+  20:40  error  Unclosed element '<b>'                                  close-order
+  21:34  error  End tag '</code>' seen but there were open elements     close-order
+  21:45  error  End tag '</p>' seen but there were open elements        close-order
+  22:2   error  <button> is missing recommended "type" attribute        no-implicit-button-type
+  23:2   error  End tag '</body>' seen but there were open elements     close-order
+
+✖ 16 problems (16 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
+More information:
+  https://html-validate.org/rules/missing-doctype.html
+  https://html-validate.org/rules/element-required-attributes.html
+  https://html-validate.org/rules/element-required-content.html
+  https://html-validate.org/rules/no-implicit-close.html
+  https://html-validate.org/rules/attr-quotes.html
+  https://html-validate.org/rules/wcag/h37.html
+  https://html-validate.org/rules/attribute-allowed-values.html
+  https://html-validate.org/rules/close-order.html
+  https://html-validate.org/rules/no-implicit-button-type.html
+
+
+$ npx html-validate 05-html/index.html
+(exit 0, no problems found)
+
+$ curl -H "Content-Type: text/html; charset=utf-8" --data-binary @05-html/broken.html "https://validator.w3.org/nu/?out=gnu"
+:1.1-1.6: error: Start tag seen without seeing a doctype first. Expected “<!DOCTYPE html>”.
+:2.1-2.6: error: Stray start tag “body”.
+:2.1-2.6: error fatal: Cannot recover after last error. Any further errors will be ignored.
+
+$ curl -H "Content-Type: text/html; charset=utf-8" --data-binary @05-html/index.html "https://validator.w3.org/nu/?out=gnu"
+(no messages: document is valid)
