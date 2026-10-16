@@ -1,0 +1,19 @@
+{
+  "name": "bcm-developer-test",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Submission for the BCM developer test",
+  "scripts": {
+    "check": "./run-all-checks.sh",
+    "check:css": "node 04-css/tests/run-checks.cjs",
+    "check:js": "node 06-js/tests/run-checks.cjs",
+    "validate": "html-validate 04-css/index.html 05-html/index.html 06-js/index.html"
+  },
+  "devDependencies": {
+    "html-validate": "^11.16.2",
+    "jsdom": "^29.1.1"
+  },
+  "engines": {
+    "node": "^22.22.0 || >=24.8.0"
+  }
+}

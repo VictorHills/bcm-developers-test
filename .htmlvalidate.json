@@ -1,0 +1,9 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "missing-doctype": "error",
+    "attribute-allowed-values": "error",
+    "no-unknown-elements": "error",
+    "void-style": "off"
+  }
+}
