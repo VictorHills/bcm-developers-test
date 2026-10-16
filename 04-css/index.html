@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Responsive Grid Layout | BCM Developer Test</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="page-header">
+    <h1>Responsive grid</h1>
+    <p class="page-header__note">
+        Resize the window past 48rem (768px) to switch layouts.
+        E, F and H are hidden below that width.
+    </p>
+</header>
+
+<!--
+    One set of sections, in a single source order: A B C D E F G H.
+    Both layouts are produced from this same markup; nothing is duplicated
+    and no JavaScript is involved. See NOTES.md for why this source order
+    was chosen and what it costs on mobile.
+-->
+<main class="layout">
+
+    <section class="panel panel--a" aria-labelledby="h-a">
+        <h2 class="panel__label" id="h-a">A</h2>
+        <p class="panel__body">
+            Spans two columns on desktop. First in both layouts.
+            <a href="#h-a">A link</a>, so focus order is observable.
+        </p>
+    </section>
+
+    <section class="panel panel--b" aria-labelledby="h-b">
+        <h2 class="panel__label" id="h-b">B</h2>
+        <p class="panel__body">
+            Third on mobile, second on desktop. <a href="#h-b">A link</a>.
+        </p>
+    </section>
+
+    <section class="panel panel--c" aria-labelledby="h-c">
+        <h2 class="panel__label" id="h-c">C</h2>
+        <h3 class="panel__heading">
+            A deliberately long heading used to check that wrapping behaves and
+            that an unbreakable token like
+            supercalifragilisticexpialidocious-00000000 cannot widen the column
+        </h3>
+        <p class="panel__body">
+            Fourth on mobile, third on desktop. <a href="#h-c">A link</a>.
+        </p>
+    </section>
+
+    <section class="panel panel--d" aria-labelledby="h-d">
+        <h2 class="panel__label" id="h-d">D</h2>
+        <p class="panel__body">
+            Second on mobile, fourth on desktop. This is the panel that moves
+            furthest. <a href="#h-d">A link</a>.
+        </p>
+    </section>
+
+    <section class="panel panel--e panel--desktop-only" aria-labelledby="h-e">
+        <h2 class="panel__label" id="h-e">E</h2>
+        <p class="panel__body">Hidden on mobile. <a href="#h-e">A link</a>.</p>
+    </section>
+
+    <section class="panel panel--f panel--desktop-only" aria-labelledby="h-f">
+        <h2 class="panel__label" id="h-f">F</h2>
+        <p class="panel__body">Hidden on mobile. <a href="#h-f">A link</a>.</p>
+    </section>
+
+    <section class="panel panel--g" aria-labelledby="h-g">
+        <h2 class="panel__label" id="h-g">G</h2>
+        <p class="panel__body">
+            Fifth and last on mobile, seventh on desktop. <a href="#h-g">A link</a>.
+        </p>
+    </section>
+
+    <section class="panel panel--h panel--desktop-only" aria-labelledby="h-h">
+        <h2 class="panel__label" id="h-h">H</h2>
+        <p class="panel__body">Hidden on mobile. <a href="#h-h">A link</a>.</p>
+    </section>
+
+</main>
+
+</body>
+</html>

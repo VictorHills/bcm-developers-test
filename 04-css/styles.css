@@ -1,0 +1,223 @@
+/*
+ * Question 4: one stylesheet, two layouts, no JavaScript, no duplicated markup.
+ *
+ * Desktop (>= 48rem), three columns:     Mobile (< 48rem), one column:
+ *   A A B                                  A
+ *   C D E                                  D
+ *   F G H                                  B
+ *                                          C
+ *                                          G
+ *
+ * E, F and H are hidden below the breakpoint.
+ *
+ * Mobile-first: the base rules ARE the mobile layout, and the media query adds
+ * the desktop grid. That way the smaller, more constrained layout is the
+ * default rather than an override, and a browser that never matches the query
+ * still gets a coherent page.
+ */
+
+/* ---------------------------------------------------------------- tokens -- */
+
+:root {
+    --breakpoint: 48rem;              /* 768px at a 16px root. See NOTES.md. */
+    --gap: 1rem;
+    --radius: 10px;
+
+    --ink: #16181d;
+    --ink-soft: #5b6070;
+    --surface: #ffffff;
+    --page: #f4f5f8;
+    --line: #d9dce4;
+    --accent: #1c2a4a;
+    --accent-soft: #e8ecf6;
+}
+
+/* ------------------------------------------------------------------ base -- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: var(--gap);
+    background: var(--page);
+    color: var(--ink);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.page-header {
+    max-width: 70rem;
+    margin: 0 auto 1.5rem;
+}
+
+.page-header h1 {
+    margin: 0 0 0.25rem;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+}
+
+.page-header__note {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.875rem;
+}
+
+/* ------------------------------------------------- layout: mobile (base) -- */
+
+.layout {
+    display: grid;
+    grid-template-columns: 1fr;       /* single column */
+    gap: var(--gap);
+    max-width: 70rem;
+    margin: 0 auto;
+}
+
+/*
+ * Mobile running order: A, D, B, C, G.
+ *
+ * `order` repositions the panels visually without touching the DOM, which is
+ * what lets one set of sections serve both layouts. It is also the source of
+ * the accessibility trade-off discussed in NOTES.md: focus order does NOT
+ * follow `order`.
+ */
+.panel--a { order: 1; }
+.panel--d { order: 2; }
+.panel--b { order: 3; }
+.panel--c { order: 4; }
+.panel--g { order: 5; }
+
+/*
+ * E, F and H are removed from the mobile layout.
+ *
+ * `display: none` rather than `visibility: hidden` or an off-screen class,
+ * because these panels should be gone for everyone below the breakpoint,
+ * including screen-reader and keyboard users. Hiding them visually while
+ * leaving them focusable would create links that can be tabbed to but not
+ * seen, which is worse than either option.
+ */
+.panel--desktop-only {
+    display: none;
+}
+
+/* ------------------------------------------------------------- the panels -- */
+
+.panel {
+    /*
+     * Grid items default to `min-width: auto`, which refuses to shrink below
+     * the widest piece of content. A long unbroken token then pushes the
+     * column wider than its track and the whole grid overflows. `min-width: 0`
+     * restores shrinking; the wrapping rules below handle the token itself.
+     * This is the "long heading" check.
+     */
+    min-width: 0;
+
+    padding: 0.875rem 1rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.panel__label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    margin: 0 0 0.5rem;
+    padding: 0 0.5rem;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    color: var(--accent);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.panel__heading,
+.panel__body {
+    /*
+     * Break a long word only when it would otherwise overflow. `anywhere`
+     * (rather than `break-word`) also lets the token contribute a reduced
+     * min-content width, which is what keeps the track from being widened.
+     */
+    overflow-wrap: anywhere;
+    hyphens: auto;
+}
+
+.panel__heading {
+    margin: 0 0 0.5rem;
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.panel__body {
+    margin: 0;
+    font-size: 0.9375rem;
+}
+
+.panel a {
+    color: var(--accent);
+}
+
+/* A visible focus ring, so tab order can actually be observed during review. */
+.panel a:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* --------------------------------------------------- layout: desktop -- */
+
+@media (min-width: 48rem) {
+
+    .layout {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /*
+     * Drop back to source order. With `order` neutralised, grid
+     * auto-placement walks the DOM (A B C D E F G H) and fills the three
+     * tracks row by row, which produces the desktop arrangement on its own:
+     *
+     *   A spans 1-2, B lands in 3   ->  A A B
+     *   C D E fill the next row     ->  C D E
+     *   F G H fill the last         ->  F G H
+     *
+     * No per-panel placement rules are needed beyond A's span.
+     */
+    .layout > .panel {
+        order: 0;
+    }
+
+    .panel--a {
+        grid-column: span 2;
+    }
+
+    .panel--desktop-only {
+        display: block;
+    }
+}
+
+/* ------------------------------------------------------------ niceties -- */
+
+@media (prefers-reduced-motion: no-preference) {
+    .panel {
+        transition: border-color 120ms ease;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ink: #e7e9ef;
+        --ink-soft: #a2a8bb;
+        --surface: #1a1d25;
+        --page: #111319;
+        --line: #2c313d;
+        --accent: #b9c7ee;
+        --accent-soft: #232a3c;
+    }
+}
